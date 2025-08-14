@@ -1,12 +1,13 @@
 # MSG Converter
 
-A command-line tool to batch convert Outlook `.msg` files to `.pdf`, `.eml`, or `.mbox` formats. Built by the McClatchy Journalism AI team with the help of ChatGPT.
+A command-line tool to batch convert Outlook `.msg` files to `.pdf`, `.csv`, `.eml`, or `.mbox` formats. Built by the McClatchy Journalism AI team with the help of ChatGPT.
 
 ## Features
 
 - Converts individual `.msg` files to:
   - 📄 PDF (with preserved formatting and embedded attachments)
   - ✉️ EML (raw email format with attachments)
+  - 📊 CSV (single spreadsheet preserving email metadata)
   - 📦 MBOX (bulk archive via intermediate EML generation)
 
 - Supports batch processing of folders
@@ -58,7 +59,7 @@ brew install cairo pango gdk-pixbuf libffi
 ## Usage
 
 ```bash
-python main.py --input <input_folder> --output <output_folder> --format <pdf|eml|mbox>
+python main.py --input <input_folder> --output <output_folder> --format <pdf|eml|mbox|csv>
 ```
 
 ### Examples
@@ -82,7 +83,23 @@ python main.py --input ./inbox --output ./mbox_out --format mbox
 
 When converting to MBOX, the tool first converts each .msg file to .eml in a temporary folder, then compiles them into a single output.mbox file.
 
+Convert to CSV:
+
+```bash
+python main.py --input ./inbox --output ./csv_out --format csv
+```
+
 ## Testing
+
+If you want to test your installation, you can run `pytest` on the included sample messages to run them through each conversion type.
+
+Test the default file (`tests/sample/sample_message1.msg`)
+
+```bash
+pytest tests
+```
+
+Specify a different test file in the `tests/sample` directory.
 
 ```bash
 pytest tests --msg-file "tests/sample/sample_message_a1.msg"    

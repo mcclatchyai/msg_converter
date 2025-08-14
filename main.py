@@ -7,12 +7,13 @@ from tqdm import tqdm
 from converters.msg_to_eml import convert_to_eml
 from converters.msg_to_pdf import convert_to_pdf
 from converters.msg_to_mbox import convert_to_mbox
+from converters.msg_to_csv import convert_to_csv
 
 def process_folder(input_folder, output_folder, output_format):
     os.makedirs(output_folder, exist_ok=True)
     msg_files = list(Path(input_folder).rglob("*.msg"))
 
-    if output_format == 'mbox':
+    if output_format.lower() == 'mbox':
         eml_temp_dir = Path(output_folder) / "_temp_eml"
         eml_temp_dir.mkdir(exist_ok=True)
         eml_paths = []
@@ -24,19 +25,26 @@ def process_folder(input_folder, output_folder, output_format):
 
         mbox_path = Path(output_folder) / "output.mbox"
         convert_to_mbox(eml_paths, mbox_path)
+        print(f"Converted {len(eml_paths)} messages to MBOX at {mbox_path}")
+
+    elif output_format.lower() == 'csv':
+        csv_path = Path(output_folder) / "output.csv"
+        convert_to_csv(input_folder, csv_path)
+        print(f"Converted {len(msg_files)} messages to CSV at {csv_path}")
 
     else:
         for msg_file in tqdm(msg_files, desc="Processing MSG files"):
             output_file = Path(output_folder) / (msg_file.stem + f".{output_format}")
-            if output_format == 'pdf':
+            if output_format.lower() == 'pdf':
                 try:
+                    # Executing PDF conversion via subprocess to get around batch errors
                     subprocess.run(
                         [sys.executable, "-m", "converters.msg_to_pdf", str(msg_file), str(output_file)],
                         check=True
                     )
                 except subprocess.CalledProcessError:
                     print(f"Failed to convert: {msg_file}")
-            elif output_format == 'eml':
+            elif output_format.lower() == 'eml':
                 convert_to_eml(msg_file, output_file)
 
 
@@ -44,7 +52,7 @@ def main():
     parser = argparse.ArgumentParser(description="Convert MSG files to PDF, EML, or MBOX")
     parser.add_argument('--input', required=True, help='Input folder containing .msg files')
     parser.add_argument('--output', required=True, help='Output folder for converted files')
-    parser.add_argument('--format', required=True, choices=['pdf', 'eml', 'mbox'], help='Output format')
+    parser.add_argument('--format', required=True, choices=['pdf', 'eml', 'mbox', 'csv'], help='Output format')
     args = parser.parse_args()
 
     process_folder(args.input, args.output, args.format)

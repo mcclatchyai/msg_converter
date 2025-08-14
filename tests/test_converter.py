@@ -3,6 +3,7 @@ from pathlib import Path
 from converters.msg_to_eml import convert_to_eml
 from converters.msg_to_pdf import convert_to_pdf
 from converters.msg_to_mbox import convert_to_mbox
+from converters.msg_to_csv import convert_to_csv
 
 def test_msg_to_eml(msg_path):
     #sample_msg = Path("tests/sample/sample_message1.msg")
@@ -30,3 +31,11 @@ def test_msg_to_mbox(msg_path):
     mbox_path = output_dir / "test_output.mbox"
     convert_to_mbox([eml_path], mbox_path)
     assert mbox_path.exists()
+
+def test_msg_to_csv(msg_path):
+    #sample_msg = Path("tests/sample/sample_message1.msg")
+    output_dir = Path("tests/output")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    csv_path = output_dir / "output.csv"
+    convert_to_csv(msg_path, csv_path)
+    assert csv_path.exists()
