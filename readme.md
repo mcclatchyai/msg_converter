@@ -26,7 +26,7 @@ pip install -r requirements.txt
 
 *Note:* WeasyPrint requires additional system dependencies:
 
-On *macOS*:
+On *macOS*, using [Homebrew](https://brew.sh/):
 
 ```bash
 brew install cairo pango gdk-pixbuf libffi
@@ -38,18 +38,25 @@ On *Ubuntu/Debian*:
 sudo apt install libpango-1.0-0 libpangocairo-1.0-0 libcairo2 libffi-dev shared-mime-info
 ```
 
-Using virtual environments (dev only):
+### Installing using a virtual environment
 
 ```bash
-python3 -m venv talaria-env
-source talaria-env/bin/activate
+# Clone the repository to your local machine
+git clone https://github.com/mcclatchyai/msg_converter.git
+# Navigate to new directory
+cd msg_converter
+# Initialize a new virtual environment to install requirements and activate
+python3 -m venv venv
+source venv/bin/activate
+
+# Within virtual environment, install dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
 pip install extract-msg weasyprint pytest
 brew install cairo pango gdk-pixbuf libffi
 ```
 
-### Usage
+## Usage
 
 ```bash
 python main.py --input <input_folder> --output <output_folder> --format <pdf|eml|mbox>
@@ -76,7 +83,7 @@ python main.py --input ./inbox --output ./mbox_out --format mbox
 
 When converting to MBOX, the tool first converts each .msg file to .eml in a temporary folder, then compiles them into a single output.mbox file.
 
-Testing:
+## Testing
 
 ```bash
 pytest tests --msg-file "tests/sample/sample_message_a1.msg"    
