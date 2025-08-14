@@ -52,7 +52,6 @@ source venv/bin/activate
 # Within virtual environment, install dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
-pip install extract-msg weasyprint pytest
 brew install cairo pango gdk-pixbuf libffi
 ```
 

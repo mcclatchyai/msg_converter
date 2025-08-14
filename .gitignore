@@ -9,3 +9,11 @@
 .pytest_cache/
 __pycache__/
 venv/
+
+# ------------------------
+# Test files
+# ------------------------
+out/
+pdf_out/
+eml_out/
+mbox_out/
