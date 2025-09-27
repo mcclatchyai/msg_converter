@@ -2,6 +2,18 @@
 # macOS system files
 # ------------------------
 .DS_Store
+.vscode/
+Thumbs.db
+
+# ------------------------
+# Build artifacts
+# ------------------------
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+wheelhouse/
 
 # ------------------------
 # Python
@@ -10,6 +22,8 @@
 __pycache__/
 venv/
 tests/output/*
+*.py[cod]
+*$py.class
 
 # ------------------------
 # Test files
