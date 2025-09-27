@@ -19,6 +19,7 @@ dependencies = [
   "python-magic>=0.4.27",
   "html5lib>=1.1",
   "chardet>=5.2",
+  "extract-msg>=0.48",
 ]
 
 [project.urls]
